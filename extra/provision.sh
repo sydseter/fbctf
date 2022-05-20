@@ -295,11 +295,9 @@ fi
             package python-all-dev
             package python-setuptools
             package python-pip
-            log "Upgrading pip"
-            sudo -H pip install --upgrade pip
-            log "Installing pip - mycli"
-            sudo -H pip install mycli
-            package emacs
+            log "Installing mycli"
+            package mycli
+	    package emacs
             package htop
         fi
 
@@ -320,6 +318,7 @@ fi
 
         log "Installing unison 2.48.3. Remember to install the same version on your host machine"
         package xz-utils
+        package zstd
         install_unison
     fi
 

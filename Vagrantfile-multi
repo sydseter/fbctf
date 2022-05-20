@@ -6,6 +6,7 @@ VAGRANTFILE_API_VERSION = "2"
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "ubuntu/xenial64"
   config.ssh.shell = "bash -c 'BASH_ENV=/etc/profile exec bash'"
+  config.vm.boot_timeout = 600
 
   # MySQL Server
   config.vm.define "mysql" do |mysql|
@@ -43,8 +44,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Nginx Server
   config.vm.define "nginx" do |nginx|
     nginx.vm.network "private_network", ip: "10.10.10.5"
-    nginx.vm.network "forwarded_port", guest: 80, host: 80
-    nginx.vm.network "forwarded_port", guest: 443, host: 443
+    nginx.vm.network "forwarded_port", guest: 80, host: 8090
+    nginx.vm.network "forwarded_port", guest: 443, host: 8443
     nginx.vm.hostname = "nginx"
     nginx.vm.provision "shell", path: "extra/provision.sh", args: "ENV['FBCTF_PROVISION_ARGS'] --multiple-servers --server-type nginx --hhvm-server 10.10.10.7", privileged: false
     nginx.vm.provider "virtualbox" do |v|
